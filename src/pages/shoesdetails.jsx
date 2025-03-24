@@ -2,6 +2,7 @@ import React, { useState, useEffect, useRef } from "react";
 import { useParams, useLocation } from "react-router-dom";
 import Footer from "../components/footer";
 import { useCart } from "../context/CartContext";
+import api from '../utils/axios'; // Updated import path
 
 const CustomAlert = ({ message, type, onClose }) => (
   <div className="fixed top-4 left-1/2 transform -translate-x-1/2 z-50">
@@ -36,14 +37,11 @@ const ShoeDetails = () => {
 
   useEffect(() => {
     if (!shoe && id) {
-      const fetchShoe = async () => {
+      const fetchProduct = async () => {
         try {
           setLoading(true);
-          const response = await fetch(`http://localhost:5000/api/products/${id}`);
-          if (!response.ok) {
-            throw new Error('Failed to fetch product');
-          }
-          const data = await response.json();
+          const response = await api.get(`/products/${id}`);
+          const data = response.data;
           setShoe({ ...data, id: data._id });
           setMainImage(data.image);
           setError(null);
@@ -55,7 +53,7 @@ const ShoeDetails = () => {
         }
       };
 
-      fetchShoe();
+      fetchProduct();
     } else if (shoe && !mainImage) {
       setMainImage(shoe.image);
     }

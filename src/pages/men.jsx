@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 import Footer from "../components/footer";
+import api from '../utils/axios'; // assuming you have an axios instance in axios.js
 
 const categories = ["Lifestyle", "Jordan", "Running", "Football", "Basketball"];
 const genders = ["Men", "Women"];
@@ -30,14 +31,11 @@ function Men() {
   }, [location.search]);
 
   useEffect(() => {
-    const fetchShoes = async () => {
+    const fetchProducts = async () => {
       try {
         setLoading(true);
-        const response = await fetch("http://localhost:5000/api/products");
-        if (!response.ok) {
-          throw new Error("Failed to fetch products");
-        }
-        const data = await response.json();
+        const response = await api.get("/products");
+        const data = response.data;
         setShoes(data);
         setError(null);
       } catch (err) {
@@ -48,7 +46,7 @@ function Men() {
       }
     };
 
-    fetchShoes();
+    fetchProducts();
   }, []);
 
   const handleGenderChange = (gender) => {
@@ -238,4 +236,3 @@ function Men() {
 }
 
 export default Men;
-
