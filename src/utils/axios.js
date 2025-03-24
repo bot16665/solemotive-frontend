@@ -2,7 +2,7 @@ import axios from 'axios';
 
 // Create axios instance with default config
 const api = axios.create({
-  baseURL: 'https://solemotive-backend.onrender.com/api',  // Your Render backend URL
+  baseURL: 'https://solvemotive-backend.onrender.com/api',  // Updated Render backend URL
   headers: {
     'Content-Type': 'application/json',
   },
