@@ -4,6 +4,7 @@ import PaymentForm from "../components/PaymentForm";
 import ShippingForm from "../components/ShippingForm";
 import EmptyCart from "../components/EmptyCart";
 import OrderSummary from "../components/OrderSummary";
+import api from '../api'; // Assuming you have an axios instance set up in api.js
 
 const Cart = () => {
   const { cart, removeFromCart, updateQuantity, clearCart } = useCart();
@@ -13,6 +14,7 @@ const Cart = () => {
   const [shippingAddress, setShippingAddress] = useState(null);
   const [discount, setDiscount] = useState(null);
   const [discountError, setDiscountError] = useState("");
+  const [validating, setValidating] = useState(false); // New state variable to track validation status
 
   const subtotal = useMemo(() => {
     return cart.reduce((total, item) => {
@@ -46,26 +48,28 @@ const Cart = () => {
 
   const handleDiscountApply = async (code) => {
     setDiscountError("");
+    setValidating(true); // Set validating to true before making the API call
     if (!code) {
       setDiscountError("Please enter a discount code");
+      setValidating(false); // Set validating to false if no code is entered
       return;
     }
 
     try {
-      const response = await fetch(`http://localhost:5000/api/discount/validate`, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ code, subtotal })
+      const response = await api.post(`/discount/validate`, {
+        code: code,
+        subtotal: subtotal
       });
-
-      const data = await response.json();
+      const data = response.data;
       if (data.success) {
         setDiscount(data.discount);
       } else {
         setDiscountError(data.error || "Invalid discount code");
       }
+      setValidating(false); // Set validating to false after the API call
     } catch (error) {
       setDiscountError("Failed to validate discount code");
+      setValidating(false); // Set validating to false if there's an error
     }
   };
 
@@ -169,6 +173,7 @@ const Cart = () => {
                     <button
                       onClick={(e) => handleDiscountApply(e.target.value)}
                       className="bg-black text-white px-6 py-2 rounded-lg hover:bg-gray-800"
+                      disabled={validating} // Disable the button while validating
                     >
                       Apply
                     </button>

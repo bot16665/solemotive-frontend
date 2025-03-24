@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import api from '../utils/axios';
 
 const OrderTracking = ({ orderId }) => {
   const [trackingInfo, setTrackingInfo] = useState(null);
@@ -8,14 +9,13 @@ const OrderTracking = ({ orderId }) => {
   useEffect(() => {
     const fetchTrackingInfo = async () => {
       try {
-        const response = await fetch(`http://localhost:5000/api/orders/${orderId}/tracking`);
-        if (!response.ok) {
-          throw new Error('Failed to fetch tracking information');
-        }
-        const data = await response.json();
+        const response = await api.get(`/orders/${orderId}/tracking`);
+        const data = response.data;
         setTrackingInfo(data);
+        setError(null);
       } catch (err) {
-        setError('Unable to load tracking information. Please try again later.');
+        setError('Failed to fetch tracking information');
+        console.error('Error fetching tracking info:', err);
       } finally {
         setLoading(false);
       }

@@ -2,10 +2,11 @@ import axios from 'axios';
 
 // Create axios instance with default config
 const api = axios.create({
-  baseURL: 'http://localhost:5000/api', // your backend API URL
+  baseURL: 'https://solvemotive-backend.onrender.com/api',  // Production backend URL
   headers: {
     'Content-Type': 'application/json',
   },
+  withCredentials: true  // Important for CORS
 });
 
 // Add a request interceptor for handling tokens
