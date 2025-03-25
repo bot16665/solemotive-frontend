@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 import Footer from "../components/footer";
-import api from '../utils/axios'; // assuming you have an axios instance in axios.js
+import api from '../utils/axios'; // Import from axios.js instead of api.js
 
 const categories = ["Lifestyle", "Jordan", "Running", "Football", "Basketball"];
 const genders = ["Men", "Women"];

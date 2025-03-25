@@ -1,6 +1,6 @@
 import React, { createContext, useState, useContext, useEffect } from 'react';
 import { auth } from '../firebaseConfig';
-import api from '../utils/api';
+import api from '../utils/axios';
 
 const UserContext = createContext();
 

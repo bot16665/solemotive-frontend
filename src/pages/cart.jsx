@@ -1,10 +1,11 @@
 import React, { useState, useMemo } from "react";
 import { useCart } from "../context/CartContext";
+import { useNavigate } from "react-router-dom";
 import PaymentForm from "../components/PaymentForm";
 import ShippingForm from "../components/ShippingForm";
 import EmptyCart from "../components/EmptyCart";
 import OrderSummary from "../components/OrderSummary";
-import api from '../api'; // Assuming you have an axios instance set up in api.js
+import api from '../utils/axios'; // Updated import path
 
 const Cart = () => {
   const { cart, removeFromCart, updateQuantity, clearCart } = useCart();
