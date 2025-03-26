@@ -179,11 +179,11 @@ const ShoeDetails = () => {
           {/* Mobile View - Drag-to-Scroll Images */}
           <div
             ref={containerRef}
-            className="md:hidden w-full overflow-hidden flex gap-4 mb-6 cursor-grab"
-            onMouseDown={handleMouseDown}
-            onMouseMove={handleMouseMove}
-            onMouseUp={handleMouseUp}
-            onMouseLeave={handleMouseLeave}
+            className="md:hidden w-full overflow-auto flex gap-4 mb-6 cursor-grab"
+            onTouchStart={handleMouseDown}
+            onTouchMove={handleMouseMove}
+            onTouchEnd={handleMouseUp}
+            onTouchCancel={handleMouseLeave}
           >
             {[shoe.image, ...(shoe.thumbnails || [])].map((image, index) => (
               <img
