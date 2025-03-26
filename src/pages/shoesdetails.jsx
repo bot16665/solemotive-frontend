@@ -150,6 +150,29 @@ const ShoeDetails = () => {
       {/* Main Content */}
       <div className="container mx-auto p-4 md:p-8">
         <div className="flex flex-col md:flex-row">
+             {/* Left Side - Thumbnails (Desktop) */}
+             <div className="hidden md:block w-full md:w-1/6 flex flex-row md:flex-col items-center justify-center md:justify-start gap-10 mb-6 md:mb-0">
+            {shoe.thumbnails?.map((thumb, index) => (
+              <img
+                key={index}
+                src={thumb}
+                alt={`Thumbnail ${index + 1}`}
+                className={`w-16 h-16 md:w-20 md:h-20 object-cover cursor-pointer rounded-md ${
+                  mainImage === thumb ? "border-2 border-black" : ""
+                }`}
+                onClick={() => setMainImage(thumb)}
+              />
+            ))}
+          </div>
+  
+          {/* Middle - Main Shoe Image (Desktop) */}
+          <div className="hidden md:block w-full md:w-1/2 flex justify-center items-center mb-6 md:mb-0">
+            <img
+              src={mainImage}
+              alt={shoe.name}
+              className="w-full h-auto max-h-[400px] md:max-h-[600px] object-contain rounded-lg"
+            />
+          </div>
           {/* Mobile View - Drag-to-Scroll Images */}
           <div
             ref={containerRef}
@@ -171,6 +194,7 @@ const ShoeDetails = () => {
               />
             ))}
           </div>
+
 
           {/* Right Side - Shoe Details */}
           <div className="w-full md:w-1/3 md:pr-8">
